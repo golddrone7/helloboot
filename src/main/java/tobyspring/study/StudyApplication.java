@@ -24,6 +24,8 @@ public class StudyApplication {
 
         // Jetty, Tomcat 추상화
         WebServer webServer = serverFactory.getWebServer(servletContext -> {
+
+            StudyController studyController = new StudyController();
             servletContext.addServlet("frontcontroller", new HttpServlet(){
                 @Override
                 protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
@@ -32,9 +34,13 @@ public class StudyApplication {
                         String name = req.getParameter("name");
                         // 상태코드, 컨텐츠타입 header, Body
                         // 200 정상
+                        // 맵핑 :
+                        // 바인딩
+                        String ret = studyController.hello(name);
+
                         resp.setStatus(HttpStatus.OK.value());
                         resp.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_PLAIN_VALUE);
-                        resp.getWriter().println("Hellos " + name);
+                        resp.getWriter().println("Hellos " + ret);
 
                     }
                     else if (req.getRequestURI().equals("/user")){
