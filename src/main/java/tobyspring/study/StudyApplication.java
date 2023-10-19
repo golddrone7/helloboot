@@ -34,6 +34,16 @@ import java.io.IOException;
 @ComponentScan
 public class StudyApplication {
 
+    @Bean
+    public ServletWebServerFactory servletWebServerFactory(){
+        return new TomcatServletWebServerFactory();
+    }
+
+    @Bean
+    public DispatcherServlet dispatcherServlet(){
+        return new DispatcherServlet();
+    }
+
     // 팩토리 메서드를 통해 빈을 만들어라
     @Bean
     public StudyController studyController(StudyService studyService){
@@ -45,23 +55,8 @@ public class StudyApplication {
     }
 
     public static void main(String[] args){
-        AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(){
-            @Override
-            protected void onRefresh() {
-                super.onRefresh();
-                ServletWebServerFactory serverFactory = new TomcatServletWebServerFactory();
-                // Jetty, Tomcat 추상화
-                WebServer webServer = serverFactory.getWebServer(servletContext -> {
-                    servletContext.addServlet("disPatcherServlet"
-                                    , new DispatcherServlet(this) )
-                    .addMapping("/*"); // 모든 요청을 다 받겠다. FrontController 책임을 맡음
-                });// 웹 서버 생성함수
-                // 톰캣이 실행
-                webServer.start();
-            }
-        };
-        applicationContext.register(StudyApplication.class);
-        applicationContext.refresh();
-
+        MySpringApplication.run(HellobootApplication.class, args);
     }
+
+
 }
