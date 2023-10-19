@@ -24,6 +24,7 @@ public class StudyApplication {
     public static void main(String[] args){
         GenericApplicationContext applicationContext = new GenericApplicationContext();
         applicationContext.registerBean(StudyController.class);
+        applicationContext.registerBean(SimpleStudyService.class);
         applicationContext.refresh();
 
         ServletWebServerFactory serverFactory = new TomcatServletWebServerFactory();
