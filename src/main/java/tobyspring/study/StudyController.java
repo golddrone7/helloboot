@@ -1,11 +1,12 @@
 package tobyspring.study;
 
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Objects;
 
-@RequestMapping("/hello")
+@RestController
 public class StudyController {
     private final StudyService studyService;
 
@@ -13,8 +14,7 @@ public class StudyController {
         this.studyService = studyService;
     }
 
-    @ResponseBody
-    @GetMapping
+    @GetMapping("/study")
     public String hello(String name) {
         return studyService.sayHello(Objects.requireNonNull(name));
     }
